@@ -1,5 +1,6 @@
 <template>
-  <div>Hello Medium Clone</div>
+  Hi!
+  <router-view />
 </template>
 
-<style></style>
+<style src="./main.css"></style>
