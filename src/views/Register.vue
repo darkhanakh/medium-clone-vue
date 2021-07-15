@@ -14,6 +14,7 @@
                 type="text"
                 class="form-control form-control-lg"
                 placeholder="Username"
+                v-model="username"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -21,6 +22,7 @@
                 type="text"
                 class="form-control form-control-lg"
                 placeholder="Email"
+                v-model="email"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,9 +30,13 @@
                 type="text"
                 class="form-control form-control-lg"
                 placeholder="Password"
+                v-model="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="isSubmitting"
+            >
               Sign Up
             </button>
           </form>
@@ -41,12 +47,33 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'AppRegister',
+  data() {
+    return {
+      email: '',
+      username: '',
+      password: '',
+    };
+  },
   methods: {
-    onSubmit() {
-      console.log('Submitted Form');
+    ...mapActions(['register']),
+    async onSubmit() {
+      const formData = {
+        email: this.email,
+        username: this.username,
+        password: this.password,
+      };
+
+      const user = await this.register(formData);
+      console.log(user);
+      await this.$router.push({ name: 'home' });
     },
+  },
+  computed: {
+    ...mapGetters(['isSubmitting']),
   },
 };
 </script>

@@ -3,4 +3,4 @@
   <router-view />
 </template>
 
-<style src="./main.css"></style>
+<style src="./main.css" />
