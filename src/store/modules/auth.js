@@ -1,5 +1,11 @@
 import authApi from '@/api/auth';
 import { setItem } from '@/helpers/persistentStorage';
+import {
+  REGISTER_START,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+} from '@/store/mutationTypes';
+import { REGISTER } from '@/store/actionTypes';
 
 export default {
   state: {
@@ -10,34 +16,35 @@ export default {
   },
   getters: {
     isSubmitting: state => state.isSubmitting,
+    validationErrors: state => state.validationErrors,
   },
   mutations: {
-    registerStart(state) {
+    [REGISTER_START](state) {
       state.isSubmitting = true;
       state.validationErrors = null;
     },
-    registerSuccess(state, payload) {
+    [REGISTER_SUCCESS](state, payload) {
       state.isSubmitting = false;
       state.currentUser = payload;
       state.isLoggedIn = true;
     },
-    registerFailure(state, payload) {
+    [REGISTER_FAILURE](state, payload) {
       state.isSubmitting = false;
       state.validationErrors = payload;
     },
   },
   actions: {
-    async register({ commit }, credentials) {
+    async [REGISTER]({ commit }, credentials) {
       let user = {};
-      commit('registerStart');
+      commit(REGISTER_START);
       try {
         const response = await authApi.register(credentials);
-        commit('registerSuccess', response.data.user);
+        commit(REGISTER_SUCCESS, response.data.user);
         user = response.data.user;
         setItem('accessToken', user.token);
       } catch (error) {
-        console.error(error);
-        commit('registerFailure', error.response.data.errors);
+        commit(REGISTER_FAILURE, error.response.data.errors);
+        throw new Error(error);
       }
       return Promise.resolve(user);
     },

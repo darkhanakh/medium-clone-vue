@@ -7,7 +7,10 @@
           <p class="text-xs-center">
             <router-link :to="{ name: 'login' }">Have an account?</router-link>
           </p>
-          VALIDATION ERRORS
+          <AppValidationErrors
+            v-if="validationErrors"
+            :validation-errors="validationErrors"
+          />
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -47,9 +50,12 @@
 </template>
 
 <script>
+import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
 import { mapGetters, mapActions } from 'vuex';
+import { REGISTER as register } from '@/store/actionTypes';
 
 export default {
+  components: { AppValidationErrors },
   name: 'AppRegister',
   data() {
     return {
@@ -59,7 +65,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['register']),
+    ...mapActions([register]),
     async onSubmit() {
       const formData = {
         email: this.email,
@@ -67,13 +73,17 @@ export default {
         password: this.password,
       };
 
-      const user = await this.register(formData);
-      console.log(user);
-      await this.$router.push({ name: 'home' });
+      try {
+        const user = await this.register(formData);
+        console.log(user);
+        this.$router.push({ name: 'home' });
+      } catch (e) {
+        console.error(e);
+      }
     },
   },
   computed: {
-    ...mapGetters(['isSubmitting']),
+    ...mapGetters(['isSubmitting', 'validationErrors']),
   },
 };
 </script>
