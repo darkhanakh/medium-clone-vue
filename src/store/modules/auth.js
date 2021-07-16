@@ -4,8 +4,11 @@ import {
   REGISTER_START,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
 } from '@/store/mutationTypes';
-import { REGISTER } from '@/store/actionTypes';
+import { REGISTER, LOGIN } from '@/store/actionTypes';
 
 export default {
   state: {
@@ -32,6 +35,19 @@ export default {
       state.isSubmitting = false;
       state.validationErrors = payload;
     },
+    [LOGIN_START](state) {
+      state.isSubmitting = true;
+      state.validationErrors = null;
+    },
+    [LOGIN_SUCCESS](state, payload) {
+      state.isSubmitting = false;
+      state.isLoggedIn = true;
+      state.currentUser = payload;
+    },
+    [LOGIN_FAILURE](state, payload) {
+      state.isSubmitting = false;
+      state.validationErrors = payload;
+    },
   },
   actions: {
     async [REGISTER]({ commit }, credentials) {
@@ -44,6 +60,21 @@ export default {
         setItem('accessToken', user.token);
       } catch (error) {
         commit(REGISTER_FAILURE, error.response.data.errors);
+        throw new Error(error);
+      }
+      return Promise.resolve(user);
+    },
+
+    async [LOGIN]({ commit }, userData) {
+      let user = {};
+      commit(LOGIN_START);
+      try {
+        const responce = await authApi.login(userData);
+        user = responce.data.user;
+        commit(LOGIN_SUCCESS, user);
+        setItem('accessToken', user.token);
+      } catch (error) {
+        commit(LOGIN_FAILURE, error.response.data.errors);
         throw new Error(error);
       }
       return Promise.resolve(user);
