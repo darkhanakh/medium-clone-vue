@@ -37,7 +37,7 @@
           </li>
         </template>
 
-        <template v-else-if="!isLoggedIn">
+        <template v-else-if="isAnonymous">
           <li class="nav-item">
             <router-link
               class="nav-link"
@@ -64,11 +64,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import {
+  CURRENT_USER as currentUser,
+  IS_LOGGED_IN as isLoggedIn,
+  IS_ANONYMOUS as isAnonymous,
+} from '@/store/getterTypes';
 
 export default {
   name: 'AppTheHeader',
   computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser']),
+    ...mapGetters({
+      currentUser,
+      isLoggedIn,
+      isAnonymous,
+    }),
   },
 };
 </script>

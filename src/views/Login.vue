@@ -47,6 +47,10 @@
 import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
 import { mapGetters } from 'vuex';
 import { LOGIN as login } from '@/store/actionTypes';
+import {
+  IS_SUBMITTING as isSubmitting,
+  VALIDATION_ERRORS as validationErrors,
+} from '@/store/getterTypes';
 
 export default {
   name: 'AppLogin',
@@ -71,7 +75,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['isSubmitting', 'validationErrors']),
+    ...mapGetters({ isSubmitting, validationErrors }),
   },
 };
 </script>

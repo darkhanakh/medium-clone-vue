@@ -9,6 +9,13 @@ import {
   LOGIN_FAILURE,
 } from '@/store/mutationTypes';
 import { REGISTER, LOGIN } from '@/store/actionTypes';
+import {
+  CURRENT_USER,
+  IS_LOGGED_IN,
+  IS_SUBMITTING,
+  VALIDATION_ERRORS,
+  IS_ANONYMOUS,
+} from '@/store/getterTypes';
 
 export default {
   state: {
@@ -18,10 +25,11 @@ export default {
     isLoggedIn: null,
   },
   getters: {
-    isSubmitting: state => state.isSubmitting,
-    validationErrors: state => state.validationErrors,
-    currentUser: state => state.currentUser,
-    isLoggedIn: state => state.isLoggedIn,
+    [IS_SUBMITTING]: state => state.isSubmitting,
+    [VALIDATION_ERRORS]: state => state.validationErrors,
+    [CURRENT_USER]: state => state.currentUser,
+    [IS_LOGGED_IN]: state => !!state.isLoggedIn,
+    [IS_ANONYMOUS]: state => state.isLoggedIn === false,
   },
   mutations: {
     [REGISTER_START](state) {

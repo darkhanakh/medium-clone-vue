@@ -53,6 +53,10 @@
 import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
 import { mapGetters, mapActions } from 'vuex';
 import { REGISTER as register } from '@/store/actionTypes';
+import {
+  IS_SUBMITTING as isSubmitting,
+  VALIDATION_ERRORS as validationErrors,
+} from '@/store/getterTypes';
 
 export default {
   components: { AppValidationErrors },
@@ -85,7 +89,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['isSubmitting', 'validationErrors']),
+    ...mapGetters({ isSubmitting, validationErrors }),
   },
 };
 </script>
