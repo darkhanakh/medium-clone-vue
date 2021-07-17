@@ -65,7 +65,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions([register]),
+    ...mapActions({
+      register,
+    }),
     async onSubmit() {
       const formData = {
         email: this.email,

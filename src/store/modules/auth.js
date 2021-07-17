@@ -20,6 +20,8 @@ export default {
   getters: {
     isSubmitting: state => state.isSubmitting,
     validationErrors: state => state.validationErrors,
+    currentUser: state => state.currentUser,
+    isLoggedIn: state => state.isLoggedIn,
   },
   mutations: {
     [REGISTER_START](state) {
