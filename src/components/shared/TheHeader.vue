@@ -30,7 +30,7 @@
           <!-- {name: 'profile', params: { slug: currentUser.username }} -->
           <li class="nav-item">
             <router-link class="nav-link" to="/" active-class="active">
-              <img :src="currentUser.image" alt="user" class="user-pic" />
+              <img :src="userImage" alt="user" class="user-pic" />
               &nbsp;
               {{ currentUser.username }}
             </router-link>
@@ -78,6 +78,11 @@ export default {
       isLoggedIn,
       isAnonymous,
     }),
+    userImage() {
+      return this.currentUser.image === null
+        ? require('@/assets/icons/person-outline.svg')
+        : this.currentUser.image;
+    },
   },
 };
 </script>

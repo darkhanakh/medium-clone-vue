@@ -7,8 +7,11 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  GET_CURRENT_USER_FAILURE,
+  GET_CURRENT_USER_START,
+  GET_CURRENT_USER_SUCCESS,
 } from '@/store/mutationTypes';
-import { REGISTER, LOGIN } from '@/store/actionTypes';
+import { REGISTER, LOGIN, GET_CURRENT_USER } from '@/store/actionTypes';
 import {
   CURRENT_USER,
   IS_LOGGED_IN,
@@ -23,6 +26,7 @@ export default {
     currentUser: null,
     validationErrors: null,
     isLoggedIn: null,
+    isLoading: false,
   },
   getters: {
     [IS_SUBMITTING]: state => state.isSubmitting,
@@ -58,6 +62,19 @@ export default {
       state.isSubmitting = false;
       state.validationErrors = payload;
     },
+    [GET_CURRENT_USER_START](state) {
+      state.isLoading = true;
+    },
+    [GET_CURRENT_USER_SUCCESS](state, payload) {
+      state.isLoading = false;
+      state.currentUser = payload;
+      state.isLoggedIn = true;
+    },
+    [GET_CURRENT_USER_FAILURE](state) {
+      state.isLoading = false;
+      state.isLoggedIn = false;
+      state.currentUser = null;
+    },
   },
   actions: {
     async [REGISTER]({ commit }, credentials) {
@@ -88,6 +105,18 @@ export default {
         throw new Error(error);
       }
       return Promise.resolve(user);
+    },
+
+    async [GET_CURRENT_USER]({ commit }) {
+      commit(GET_CURRENT_USER_START);
+      try {
+        const responce = await authApi.getCurrentUser();
+        commit(GET_CURRENT_USER_SUCCESS, responce.data.user);
+        return Promise.resolve(responce.data.user);
+      } catch (error) {
+        commit(GET_CURRENT_USER_FAILURE);
+        console.log(error);
+      }
     },
   },
 };
