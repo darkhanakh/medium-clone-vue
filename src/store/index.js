@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { authModule } from './modules';
+import { authModule, feedModule } from './modules';
 
 export default createStore({
   state: {},
@@ -7,5 +7,6 @@ export default createStore({
   actions: {},
   modules: {
     auth: authModule,
+    feed: feedModule,
   },
 });

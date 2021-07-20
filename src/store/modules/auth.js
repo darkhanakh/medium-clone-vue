@@ -10,15 +10,15 @@ import {
   GET_CURRENT_USER_FAILURE,
   GET_CURRENT_USER_START,
   GET_CURRENT_USER_SUCCESS,
-} from '@/store/mutationTypes';
-import { REGISTER, LOGIN, GET_CURRENT_USER } from '@/store/actionTypes';
+} from '@/store/types/mutationTypes';
+import { REGISTER, LOGIN, GET_CURRENT_USER } from '@/store/types/actionTypes';
 import {
   CURRENT_USER,
   IS_LOGGED_IN,
   IS_SUBMITTING,
   VALIDATION_ERRORS,
   IS_ANONYMOUS,
-} from '@/store/getterTypes';
+} from '@/store/types/getterTypes';
 
 export default {
   state: {

@@ -5,7 +5,7 @@
 
 <script>
 import AppTheHeader from '@/components/shared/TheHeader';
-import { GET_CURRENT_USER as getCurrentUser } from '@/store/actionTypes';
+import { GET_CURRENT_USER as getCurrentUser } from '@/store/types/actionTypes';
 import { mapActions } from 'vuex';
 
 export default {

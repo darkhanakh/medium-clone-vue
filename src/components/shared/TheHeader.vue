@@ -1,14 +1,14 @@
 <template>
   <nav class="navbar navbar-light">
     <div class="container">
-      <router-link :to="{ name: 'home' }" class="navbar-brand">
+      <router-link :to="{ name: 'globalFeed' }" class="navbar-brand">
         Medium Clone
       </router-link>
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link
             class="nav-link"
-            :to="{ name: 'home' }"
+            :to="{ name: 'globalFeed' }"
             active-class="active"
           >
             Home
@@ -68,7 +68,7 @@ import {
   CURRENT_USER as currentUser,
   IS_LOGGED_IN as isLoggedIn,
   IS_ANONYMOUS as isAnonymous,
-} from '@/store/getterTypes';
+} from '@/store/types/getterTypes';
 
 export default {
   name: 'AppTheHeader',

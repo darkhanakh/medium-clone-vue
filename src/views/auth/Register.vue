@@ -3,17 +3,23 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign in</h1>
+          <h1 class="text-xs-center">Sign Up</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'register' }"
-              >Need an account?
-            </router-link>
+            <router-link :to="{ name: 'login' }">Have an account?</router-link>
           </p>
           <AppValidationErrors
             v-if="validationErrors"
             :validation-errors="validationErrors"
           />
           <form @submit.prevent="onSubmit">
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Username"
+                v-model="username"
+              />
+            </fieldset>
             <fieldset class="form-group">
               <input
                 type="text"
@@ -34,7 +40,7 @@
               class="btn btn-lg btn-primary pull-xs-right"
               :disabled="isSubmitting"
             >
-              Sign in
+              Sign Up
             </button>
           </form>
         </div>
@@ -45,32 +51,40 @@
 
 <script>
 import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
-import { mapGetters } from 'vuex';
-import { LOGIN as login } from '@/store/actionTypes';
+import { mapGetters, mapActions } from 'vuex';
+import { REGISTER as register } from '@/store/types/actionTypes';
 import {
   IS_SUBMITTING as isSubmitting,
   VALIDATION_ERRORS as validationErrors,
-} from '@/store/getterTypes';
+} from '@/store/types/getterTypes';
 
 export default {
-  name: 'AppLogin',
-  components: {
-    AppValidationErrors,
+  components: { AppValidationErrors },
+  name: 'AppRegister',
+  data() {
+    return {
+      email: '',
+      username: '',
+      password: '',
+    };
   },
-  data: () => ({
-    email: '',
-    password: '',
-  }),
   methods: {
+    ...mapActions({
+      register,
+    }),
     async onSubmit() {
-      const formData = { email: this.email, password: this.password };
+      const formData = {
+        email: this.email,
+        username: this.username,
+        password: this.password,
+      };
 
       try {
-        const user = await this.$store.dispatch(login, formData);
-        console.log('user: ', user);
-        this.$router.replace({ name: 'home' });
-      } catch (error) {
-        console.error(error);
+        const user = await this.register(formData);
+        console.log(user);
+        this.$router.push({ name: 'globalFeed' });
+      } catch (e) {
+        console.error(e);
       }
     },
   },
