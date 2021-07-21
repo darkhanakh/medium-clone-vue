@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import AppFeed from '@/components/shared/Feed.vue';
+import AppFeed from '@/components/Feed.vue';
 
 export default {
   name: 'AppGlobalFeed',

@@ -15,21 +15,34 @@
           </router-link>
         </li>
         <template v-if="isLoggedIn">
-          <!-- {name: 'editor'} -->
           <li class="nav-item">
-            <router-link class="nav-link" to="/" active-class="active" exact>
+            <router-link
+              class="nav-link"
+              :to="{ name: 'createArticle' }"
+              active-class="active"
+              exact
+            >
               <i class="ion-compose" /> &nbsp; New Article
             </router-link>
           </li>
-          <!-- {name: 'settings'} -->
           <li class="nav-item">
-            <router-link class="nav-link" to="/" active-class="active">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'settings' }"
+              active-class="active"
+            >
               <i class="ion-gear-a" /> &nbsp; Settings
             </router-link>
           </li>
-          <!-- {name: 'profile', params: { slug: currentUser.username }} -->
           <li class="nav-item">
-            <router-link class="nav-link" to="/" active-class="active">
+            <router-link
+              class="nav-link"
+              :to="{
+                name: 'userProfile',
+                params: { slug: currentUser.username },
+              }"
+              active-class="active"
+            >
               <img :src="userImage" alt="user" class="user-pic" />
               &nbsp;
               {{ currentUser.username }}

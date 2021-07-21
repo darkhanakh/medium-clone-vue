@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
+import AppValidationErrors from '@/components/ValidationErrors.vue';
 import { mapGetters } from 'vuex';
 import { LOGIN as login } from '@/store/types/actionTypes';
 import {

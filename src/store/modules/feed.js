@@ -7,7 +7,11 @@ export default {
     error: null,
     isLoading: false,
   }),
-  getters: {},
+  getters: {
+    feedData: state => state.data,
+    isLoading: state => state.isLoading,
+    error: state => state.error,
+  },
   mutations: {
     getFeedStart(state) {
       state.isLoading = true;

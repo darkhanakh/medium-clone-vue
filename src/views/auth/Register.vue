@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import AppValidationErrors from '@/components/shared/ValidationErrors.vue';
+import AppValidationErrors from '@/components/ValidationErrors.vue';
 import { mapGetters, mapActions } from 'vuex';
 import { REGISTER as register } from '@/store/types/actionTypes';
 import {
