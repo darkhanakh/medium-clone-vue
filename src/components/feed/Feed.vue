@@ -45,7 +45,7 @@
       </router-link>
     </div>
     <app-pagination
-      :total="total"
+      :total="feedData.articlesCount"
       :limit="limit"
       :base-url="baseUrl"
       :current-page="currentPage"
@@ -55,17 +55,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import AppPagination from './Pagination.vue';
+import { stringify, parseUrl } from 'query-string';
 import GridLoader from 'vue-spinner/src/GridLoader';
+
+import AppPagination from './Pagination.vue';
+import { constants } from '@/helpers';
 
 export default {
   components: { AppPagination, GridLoader },
   name: 'AppFeed',
   data: () => ({
-    total: 500,
-    limit: 10,
-    currentPage: 3,
-    baseUrl: '/',
+    limit: constants.LIMIT,
   }),
   props: {
     apiUrl: {
@@ -75,12 +75,36 @@ export default {
   },
   methods: {
     ...mapActions('feed', ['getFeed']),
+    async fetchFeed() {
+      const parsedUrl = parseUrl(this.apiUrl);
+      const stringifiedUrl = stringify({
+        limit: this.limit,
+        offset: this.offset,
+        ...parsedUrl.query,
+      });
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedUrl}`;
+      await this.getFeed({ apiUrl: apiUrlWithParams });
+    },
   },
   computed: {
     ...mapGetters('feed', ['feedData', 'isLoading', 'error']),
+    currentPage() {
+      return +this.$route.query.page || 1;
+    },
+    baseUrl() {
+      return this.$route.path;
+    },
+    offset() {
+      return this.currentPage * this.limit - this.limit;
+    },
+  },
+  watch: {
+    async currentPage() {
+      await this.fetchFeed();
+    },
   },
   async mounted() {
-    await this.getFeed({ apiUrl: this.apiUrl });
+    await this.fetchFeed();
   },
 };
 </script>

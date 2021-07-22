@@ -4,7 +4,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
-          <AppFeed :api-url="apiUrl"></AppFeed>
+          <AppFeed :api-url="apiUrl" />
         </div>
         <div class="col-md-3">POPULAR TAGS</div>
       </div>
