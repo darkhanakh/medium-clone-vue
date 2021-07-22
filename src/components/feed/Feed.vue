@@ -1,5 +1,7 @@
 <template>
-  <div v-if="isLoading">Loading...</div>
+  <div v-if="isLoading">
+    <grid-loader color="green"></grid-loader>
+  </div>
 
   <div v-if="error">Something went wrong</div>
 
@@ -42,15 +44,29 @@
         TAG LIST
       </router-link>
     </div>
-    PAGINATION
+    <app-pagination
+      :total="total"
+      :limit="limit"
+      :base-url="baseUrl"
+      :current-page="currentPage"
+    ></app-pagination>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import AppPagination from './Pagination.vue';
+import GridLoader from 'vue-spinner/src/GridLoader';
 
 export default {
+  components: { AppPagination, GridLoader },
   name: 'AppFeed',
+  data: () => ({
+    total: 500,
+    limit: 10,
+    currentPage: 3,
+    baseUrl: '/',
+  }),
   props: {
     apiUrl: {
       type: String,
